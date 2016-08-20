@@ -1,0 +1,14 @@
+{
+    "installed": {
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "client_id": "677787927775-k5fejcqthiac1brljr2qtf7o5g1ojsaf.apps.googleusercontent.com",
+        "client_secret": "3TpvNy73g9Jcjoeam4CQi7qR",
+        "project_id": "bill-list-creator",
+        "redirect_uris": [
+            "urn:ietf:wg:oauth:2.0:oob",
+            "http://localhost"
+        ],
+        "token_uri": "https://accounts.google.com/o/oauth2/token"
+    }
+}
