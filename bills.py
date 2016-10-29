@@ -1,8 +1,8 @@
 from __future__ import print_function
+import argparse
 import httplib2
 import os
 import sys
-from optparse import OptionParser
 from apiclient import discovery
 import oauth2client
 from oauth2client import client
@@ -14,6 +14,12 @@ SCOPES = 'https://www.googleapis.com/auth/tasks https://www.googleapis.com/auth/
 CLIENT_SECRET_FILE = 'tasks.json'
 APPLICATION_NAME = 'Bill Checklist'
 BILLS_CALENDAR_ID = 'grm70h5srpq90vp7v6upsaoce4@group.calendar.google.com'
+
+parser =  argparse.ArgumentParser(parents=[tools.argparser])
+parser.add_argument("--month", help="Month for list")
+parser.add_argument("--year",  help="Year for list")
+
+flags = None
 
 def get_credentials():
     """Gets valid user credentials from storage.
@@ -38,8 +44,7 @@ def get_credentials():
         flow.user_agent = APPLICATION_NAME
         if flags:
             credentials = tools.run_flow(flow, store, flags)
-        else: # Needed only for compatibility with Python 2.6
-            credentials = tools.run(flow, store)
+
         print('Storing credentials to ' + credential_path)
     return credentials
 
@@ -101,18 +106,13 @@ def get_all_bills(month, year):
     return sorted(events, key=lambda e: e['start']['date'])
 
 if __name__ == "__main__":
-    parser = OptionParser()
-    parser.add_option('-y', '--year', dest='year',
-        help='Year for bill checklist')
+    flags = parser.parse_args()
+    month = int(flags.month) if flags.month else None
+    year  = int(flags.year)  if flags.year else None
 
-    parser.add_option('-m', '--month', dest='month',
-        help='Month for bill checklist')
-
-    (options, args) = parser.parse_args()
-
-    if not options.year or not options.month:
+    if not month or not year:
         print("Year and month required")
         sys.exit(1)
 
-    create_task_list(int(options.month), int(options.year))
+    create_task_list(month, year)
 
